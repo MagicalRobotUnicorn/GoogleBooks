@@ -24,3 +24,7 @@ yarn-error.log*
 
 # Api Keys
 .env
+
+# Notes
+todo.txt
+
