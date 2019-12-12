@@ -17,7 +17,7 @@ export default class Header extends Component {
           </div>
           <div className="row">
             <div className="col">
-            <Link to="/">Home</Link>  | <Link to="/about">About</Link>
+            <Link to="/">Home</Link>  | <Link to="/all">About</Link>
             </div>
           </div>
         </div>

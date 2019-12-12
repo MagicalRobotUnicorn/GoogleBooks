@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-const axios = require('axios');
 import Book from './Book';
+const axios = require('axios');
 
 // Sample object from testPull
 // let bookData = response.data.items.slice(0, 15);

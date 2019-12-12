@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class Book extends Component {
+export default class Book extends Component{
   render() {
     return (
       <div className="individualBook row">

@@ -14,22 +14,61 @@
 
 // console.log(sampleItem);
 
-const express = require("express");
-const router = express.Router();
-const axios = require("axios");
-const $ = require("cheerio");
+// 
+// const express = require("express");
+// const router = express.Router();
+// const bookcontroller = require("../../controllers/bookscontroller");
+
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose')
+
 
 //Book and Api routes
-const google_books = require("../config/keys");
+// const google_books = require("../config/keys");
  
-const mongoose = require("mongoose");
-const Book = require('../models/book');
+// const mongoose = require("mongoose");
+// const Book = require('../models/book');
+
+
+require('dotenv').config();
+
+ const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+
+// Replacement for body parser, included in express
+app.use(express.json());
+
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }
+);
+
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log("MongoDB Connection up...");
+});
+
+app.listen(PORT, () => {
+  console.log('Server is running on PORT: ', PORT);
+});
+
+
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 router.post("/api/:book", function(req, res){
   const book = new Book({
-      _id: new mongoose.Types.ObjectId(),
-// Insert Book Schema Here
+      _id: String,
+      title : String,
+      authors : String,
+      description: String,
+      image: String,
+      link : String
   });
+
+  
   book
   .save()
   .then(result => {
@@ -43,20 +82,12 @@ router.post("/api/:book", function(req, res){
   });
 });
 
+
 router.get("/api/bookCollection", function(req, res){
   // console.log(req.body);
   const id = req.params.article;
   // Return all articles in mongo
 });
 
-router.get("/api/:articleId", (req, res, next) => {
-  const id = req.params.articleId;
-  Comment.find({articleId: id})
-  .exec()
-  .then(doc => {
-      res.status(200).json(doc);
-  })
-  .catch(err => {
-      res.status(500).json({error: err});
-});
-});
+
+
