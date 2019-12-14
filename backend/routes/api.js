@@ -10,6 +10,28 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/').post((req, res) => {
+  const newBook = new Book({
+    id: req.body.id,
+    title: req.body.title,
+    authors: req.body.authors,
+    description: req.body.description,
+    image: req.body.image,
+    link: req.body.link
+  });
+
+  newBook.save()
+  .then(() => res.json('Book added!'))
+  .catch((err) => res.status(400).json('Error: ' + err));
+  
+});
+
+router.route('/:id').delete((req, res) => {
+  Book.findByIdAndDelete(req.params.id)
+  .then(() => res.json('Book deleted!'))
+  .catch((err) => res.status(400).json('Error: ' + err));
+})
+
 router.route('/query/:info').get((req, res) => {
   axios.get('https://www.googleapis.com/books/v1/volumes?q=' + req.params.info + '&key=' + keys.google)
     .then((response) => {

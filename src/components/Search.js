@@ -1,7 +1,42 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
+
 
 export default class Search extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchTerm: ''
+    }
+
+    this.onChangeSearchTerm = this.onChangeSearchTerm.bind(this);
+  }
+
+  onChangeSearchTerm(e) {
+    this.setState({
+      searchTerm: e.target.value
+    });
+    }
+  }
+
+  onSubmit(e){
+    e.preventDefault();
+
+    const searchTerm = this.state.searchTerm;
+
+    axios.get('/api/query' + searchTerm)
+    .then((response) => {
+      const responseArray = response.data;
+      <Link 
+    }
+    )
+  }
+
+
   render() {
+    // Insert state and on change requirements
+    // Pass state variable up to parent element
     return (
       <div className="container">
         <div className="row">
