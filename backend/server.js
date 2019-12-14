@@ -1,13 +1,12 @@
 const express = require("express");
-const cors = require('cors');
-
-const mongoose = require("mongoose");
-const routes = require("../routes");
-const app = express();
-const PORT = process.env.PORT || 3001;
 
 require('dotenv').config();
+const keys = require('../config/keys');
 
+const mongoose = require("mongoose");
+
+const app = express();
+const PORT = process.env.PORT || 3001;
 
 // Configure body parsing for AJAX requests
 app.use(express.urlencoded({ extended: true }));
@@ -18,16 +17,35 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Add routes, both API and view
-app.use(routes);
+const apiRouter = require('./routes/api');
+
+app.use('/api/', apiRouter);
+
+// Constant for Local Database Connection
+// const uri = keys.database;
+const uri = 'mongodb://127.0.0.1:27017/';
+
+// This is where we start our connection
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+
+
+// Connection for Mongoose
+const connection = mongoose.connection;
 
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
+  keys.database || "mongodb://localhost/googlebooks",
   {
     useCreateIndex: true,
     useNewUrlParser: true
   }
 );
+
+
+// Establish connection to the database
+connection.once('open', () => {
+  console.log("MongoDB database up...");
+});
 
 // Start the API server
 app.listen(PORT, () =>
